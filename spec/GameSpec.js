@@ -72,7 +72,7 @@ describe("Game", function(){
       game.bowl(10)
       game.bowl(4)
       game.bowl(9)
-      expect(game.score(0)).toEqual(23)
+      expect(game.score(3)).toEqual(23)
     });
 
     it('should add spare bonus when appropriate', function (){
