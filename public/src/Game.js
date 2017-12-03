@@ -8,28 +8,7 @@ Game.prototype = {
 
 	bowl: function(pins){
 	  this.bowls[this.currentBowl++] = pins;
-    this.scoreCard.push(pins);
-	},
-
-	score: function(){
-		var score = 0;
-    var frameIndex = 0;
-
-    for (var frame = 0; frame < 10; frame ++){
-			if (this._isStrike(frameIndex)){
-				score += 10 + this._strikeBonus(frameIndex);
-				frameIndex ++;
-			}
-			else if (this._isSpare(frameIndex)) {
-				score += 10 + this._spareBonus(frameIndex);
-				frameIndex += 2;
-      }
-			else {
-				score += this._sumPins(frameIndex);
-				frameIndex += 2;
-			}
-    }
-		return score;
+    this.scoreCard.push(" " + pins);
 	},
 
   newGame: function (){
@@ -38,8 +17,8 @@ Game.prototype = {
     this.scoreCard = [];
   },
 
-  _nextFrame: function () {
-    this.currentFrame ++;
+  getCurrentBowl: function (){
+      return this.currentBowl;
   },
 
 	_sumPins: function(frameIndex){
@@ -60,5 +39,29 @@ Game.prototype = {
 
 	_spareBonus: function(frameIndex){
   	return this.bowls[frameIndex + 2];
-	}
+	},
+
+  score: function(){
+    var score = 0;
+    var frameIndex = 0;
+
+    for (var frame = 0; frame < 10; frame ++){
+      if (this._isStrike(frameIndex)){
+        score += 10 + this._strikeBonus(frameIndex);
+        frameIndex ++;
+        console.log(frameIndex)
+      }
+      else if (this._isSpare(frameIndex)) {
+        score += 10 + this._spareBonus(frameIndex);
+        frameIndex += 2;
+        console.log(frameIndex)
+      }
+      else {
+        score += this._sumPins(frameIndex);
+        frameIndex += 2;
+      }
+    }
+    console.log(frameIndex)
+    return score;
+  }
 };
