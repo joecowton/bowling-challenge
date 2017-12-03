@@ -4,64 +4,64 @@ function Game(){
   this.scoreCard = []
 };
 
-Game.prototype = {
+Game.prototype.bowl = function(pins){
+  this.bowls[this.currentBowl++] = pins;
+  this.scoreCard.push(" " + pins);
+};
 
-	bowl: function(pins){
-	  this.bowls[this.currentBowl++] = pins;
-    this.scoreCard.push(" " + pins);
-	},
+Game.prototype.newGame = function (){
+  this.currentBowl = 0;
+  this.bowls = [];
+  this.scoreCard = [];
+};
 
-  newGame: function (){
-    this.currentBowl = 0;
-    this.bowls = [];
-    this.scoreCard = [];
-  },
+Game.prototype.getCurrentBowl = function (){
+    return this.currentBowl;
+};
 
-  getCurrentBowl: function (){
-      return this.currentBowl;
-  },
+Game.prototype.score = function () {
 
-	_sumPins: function(frameIndex){
-	  return this.bowls[frameIndex] + this.bowls[frameIndex + 1];
-	},
+  var score = 0;
+  var frameIndex = 0;
+  var self = this;
 
-	_isStrike: function(frameIndex){
-	  return this.bowls[frameIndex] === 10;
-	},
+	function _sumPins (){
+	  return self.bowls[frameIndex] + self.bowls[frameIndex + 1];
+	}
 
-	_isSpare: function(frameIndex){
-  	return this.bowls[frameIndex] + this.bowls[frameIndex + 1] === 10;
-	},
+	function _isStrike (){
+	  return self.bowls[frameIndex] === 10;
+	}
 
-	_strikeBonus: function(frameIndex){
-  	return this.bowls[frameIndex + 1] + this.bowls[frameIndex + 2];
-	},
+	function _isSpare (){
+  	return self.bowls[frameIndex] + self.bowls[frameIndex + 1] === 10;
+	}
 
-	_spareBonus: function(frameIndex){
-  	return this.bowls[frameIndex + 2];
-	},
+	function _strikeBonus () {
+  	return self.bowls[frameIndex + 1] + self.bowls[frameIndex + 2];
+	}
 
-  score: function(){
-    var score = 0;
-    var frameIndex = 0;
+	function _spareBonus(){
+  	return self.bowls[frameIndex + 2];
+	}
 
-    for (var frame = 0; frame < 10; frame ++){
-      if (this._isStrike(frameIndex)){
-        score += 10 + this._strikeBonus(frameIndex);
-        frameIndex ++;
-        console.log(frameIndex)
-      }
-      else if (this._isSpare(frameIndex)) {
-        score += 10 + this._spareBonus(frameIndex);
-        frameIndex += 2;
-        console.log(frameIndex)
-      }
-      else {
-        score += this._sumPins(frameIndex);
-        frameIndex += 2;
-      }
+  for (var frame = 0; frame < 10; frame ++){
+    if (_isStrike()){
+      score += 10 + _strikeBonus();
+      frameIndex ++;
+      console.log(frameIndex)
     }
-    console.log(frameIndex)
-    return score;
+    else if (_isSpare()) {
+      score += 10 + _spareBonus();
+      frameIndex += 2;
+      console.log(frameIndex)
+    }
+    else {
+      score += _sumPins();
+      frameIndex += 2;
+    }
   }
+  console.log(frame)
+  return score;
+
 };
